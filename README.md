@@ -1,49 +1,52 @@
 # Discord Pterodactyl Connector Bot
 
-A simple Discord bot to control your Pterodactyl game server from Discord.
+A Discord bot to control your Pterodactyl game server from Discord. Supports starting, stopping, restarting, killing, and checking the status of your server via Discord commands.
 
 ---
 
 ## Features
-- Start, stop, restart, kill, and check the status of your Pterodactyl server via Discord commands.
-- Easy configuration with a YAML file.
+- Start, stop, restart, kill, and check the status of your Pterodactyl server via Discord commands
+- Easy YAML configuration
+- Works with any Pterodactyl panel supporting the client API
 
 ---
 
-## Setup Instructions (For Non-Technical Users)
+## Setup
 
 ### 1. Download and Extract
 - Download the project folder or the `discord_pterodactyl_connector.rar` file.
 - If you downloaded the `.rar` file, extract it to a folder on your computer.
 
 ### 2. Configure the Bot
-- Find the file named `config.yml.example` in the folder.
-- Make a copy of it and rename the copy to `config.yml`.
-- Open `config.yml` with Notepad or any text editor.
-- Fill in the following fields:
-  - `discord_token`: Your Discord bot token (from the Discord Developer Portal).
-  - `command_prefix`: The symbol or word you want to use before commands (e.g., `!`).
-  - `api_token`: Your Pterodactyl API token (from your Pterodactyl panel).
-  - `pterodactyl_url`: The URL to your Pterodactyl panel’s API (should end with `/api/client/`).
-  - `server_id`: The ID of the server you want to control.
+- Copy `config.yml.example` to `config.yml`.
+- Edit `config.yml` and fill in:
+  - `discord_token`: Your Discord bot token (from the Discord Developer Portal)
+  - `command_prefix`: The prefix for commands (e.g., `!`)
+  - `api_token`: Your Pterodactyl API token
+  - `pterodactyl_url`: The URL to your Pterodactyl panel’s API (should end with `/api/client/`)
+  - `server_id`: The ID of the server you want to control
 
-### 3. Run the Bot
+### 3. Running the Bot
 
-#### Option A: Using the Pre-built EXE
+#### Option A: Pre-built Executable
 - Double-click `pterodactylControlBot.exe` to start the bot.
 
-#### Option B: Running from Source (Advanced)
-- Install Go from https://go.dev/dl/
-- Open a command prompt in the project folder.
+#### Option B: From Source
+- Install Go (https://go.dev/dl/)
+- Open a terminal in the project folder
 - Run: `go run main.go`
-- The bot will start and show a message when it’s running.
 
-### 4. Invite the Bot to Your Discord Server
-- Use the Discord Developer Portal to generate an invite link for your bot.
-- Make sure the bot has permission to read and send messages.
+---
 
-### 5. Use the Bot
-- In your Discord server, type your chosen prefix and a command, for example: `!start`, `!stop`, `!status`, `!restart`, `!kill`, or `!help`.
+## Usage
+- Invite your bot to your Discord server (generate an invite link in the Discord Developer Portal)
+- Use commands in any channel the bot can read:
+  - `<prefix>start` — Start the server
+  - `<prefix>stop` — Stop the server
+  - `<prefix>restart` — Restart the server
+  - `<prefix>kill` — Kill the server
+  - `<prefix>status` — Get server status
+  - `<prefix>help` — Show help message
 
 ---
 
@@ -59,8 +62,16 @@ server_id: "YOUR_SERVER_ID"
 ---
 
 ## Troubleshooting
-- Double-check your `config.yml` values for typos.
-- Make sure your tokens and URLs are correct.
-- If you see errors, check the command prompt or log output for details.
+- Double-check your `config.yml` values for typos
+- Ensure your tokens and URLs are correct
+- If you see errors, check the terminal or log output for details
 
-If you need more help, contact the project maintainer.
+---
+
+## Contributing
+Pull requests and issues are welcome! Please open an issue for bugs or feature requests.
+
+---
+
+## License
+MIT License
