@@ -1,77 +1,65 @@
-# Discord Pterodactyl Connector Bot
+# Discord Pterodactyl Connector
 
-A Discord bot to control your Pterodactyl game server from Discord. Supports starting, stopping, restarting, killing, and checking the status of your server via Discord commands.
+[![Go](https://img.shields.io/badge/Go-1.18%2B-blue)](https://golang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
-
-## Features
-- Start, stop, restart, kill, and check the status of your Pterodactyl server via Discord commands
-- Easy YAML configuration
-- Works with any Pterodactyl panel supporting the client API
+A Discord bot written in Go for managing and monitoring Pterodactyl servers directly from Discord.
 
 ---
 
-## Setup
+## 🚀 Features
+- Start, stop, and restart Pterodactyl servers
+- View server status and resource usage
+- Secure authentication
+- Easy setup and deployment
 
-### 1. Download and Extract
-- Download the project folder or the `discord_pterodactyl_connector.rar` file.
-- If you downloaded the `.rar` file, extract it to a folder on your computer.
+## 📦 Installation
 
-### 2. Configure the Bot
-- Copy `config.yml.example` to `config.yml`.
-- Edit `config.yml` and fill in:
-  - `discord_token`: Your Discord bot token (from the Discord Developer Portal)
-  - `command_prefix`: The prefix for commands (e.g., `!`)
-  - `api_token`: Your Pterodactyl API token
-  - `pterodactyl_url`: The URL to your Pterodactyl panel’s API (should end with `/api/client/`)
-  - `server_id`: The ID of the server you want to control
+### Clone the Repository or Download
+```powershell
+git clone https://github.com/yourusername/discord_pterodactyl_connector.git
+cd discord_pterodactyl_connector
+```
+- The Windows executable `pterodactylControlBot.exe` is included in this repository for convenience.
+- Or build from source:
+  ```sh
+  go build -o pterodactylControlBot.exe main.go
+  ```
+  ----
+  #### Download
+  
 
-### 3. Running the Bot
+### Configuration
+1. Copy `config.yml.example` to `config.yml`:
+   ```powershell
+   Copy-Item config.yml.example config.yml
+   ```
+2. Edit `config.yml` with your Discord bot token and Pterodactyl API credentials.
 
-#### Option A: Pre-built Executable
-- Double-click `pterodactylControlBot.exe` to start the bot.
+## 🛠 Usage
+```sh
+./pterodactylControlBot.exe
+```
+Invite the bot to your Discord server and use the available commands to control your servers.
 
-#### Option B: From Source
-- Install Go (https://go.dev/dl/)
-- Open a terminal in the project folder
-- Run: `go run main.go`
-
----
-
-## Usage
-- Invite your bot to your Discord server (generate an invite link in the Discord Developer Portal)
-- Use commands in any channel the bot can read:
-  - `<prefix>start` — Start the server
-  - `<prefix>stop` — Stop the server
-  - `<prefix>restart` — Restart the server
-  - `<prefix>kill` — Kill the server
-  - `<prefix>status` — Get server status
-  - `<prefix>help` — Show help message
-
----
-
-## Example `config.yml`
+## ⚙️ Example config.yml
 ```yaml
+# config.yml
+# Fill in your details
+
 discord_token: "YOUR_DISCORD_BOT_TOKEN"
-command_prefix: "!"
-api_token: "YOUR_PTERODACTYL_API_TOKEN"
-pterodactyl_url: "https://your.panel.url/api/client/"
-server_id: "YOUR_SERVER_ID"
+pterodactyl:
+  api_key: "YOUR_PTERODACTYL_API_KEY"
+  panel_url: "https://panel.example.com"
+  servers:
+    - id: "server-uuid-1"
+      name: "Minecraft Server"
+    - id: "server-uuid-2"
+      name: "CS:GO Server"
 ```
 
----
+## 🤝 Contributing
+Pull requests and issues are welcome!
 
-## Troubleshooting
-- Double-check your `config.yml` values for typos
-- Ensure your tokens and URLs are correct
-- If you see errors, check the terminal or log output for details
-
----
-
-## Contributing
-Pull requests and issues are welcome! Please open an issue for bugs or feature requests.
-
----
-
-## License
-MIT License
+## 📄 License
+MIT
