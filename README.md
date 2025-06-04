@@ -1,68 +1,72 @@
 # Discord Pterodactyl Connector
 
-[![Go](https://img.shields.io/badge/Go-1.18%2B-blue)](https://golang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+A simple Discord bot written in Go that allows you to control a Pterodactyl game server via Discord commands. The bot can start, stop, restart, kill, and check the status of your server using the Pterodactyl API.
 
-A Discord bot written in Go for managing and monitoring Pterodactyl servers directly from Discord.
+## Features
+- Start, stop, restart, and kill your Pterodactyl server from Discord
+- Check server status directly from Discord
+- Easy configuration via YAML file
 
----
+## Requirements
+- Go 1.18 or newer
+- A Discord bot token ([How to create a Discord bot](https://discord.com/developers/applications))
+- Pterodactyl API credentials (API key, server ID, and panel URL)
 
-## 🚀 Features
-- Start, stop, and restart Pterodactyl servers
-- View server status and resource usage
-- Secure authentication
-- Easy setup and deployment
+## Setup
 
-## 📦 Installation
-
-### Clone the Repository or Download
-```powershell
-git clone https://github.com/yourusername/discord_pterodactyl_connector.git
-cd discord_pterodactyl_connector
-```
-- The Windows executable `pterodactylControlBot.exe` is included in this repository for convenience.
-- Or build from source:
-  ```sh
-  go build -o pterodactylControlBot.exe main.go
-  ```
-  ----
-  #### Download
-  
-
-### Configuration
-1. Copy `config.yml.example` to `config.yml`:
-   ```powershell
-   Copy-Item config.yml.example config.yml
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/discord_pterodactyl_connector.git
+   cd discord_pterodactyl_connector
    ```
-2. Edit `config.yml` with your Discord bot token and Pterodactyl API credentials.
 
-## 🛠 Usage
-```sh
-./pterodactylControlBot.exe
-```
-Invite the bot to your Discord server and use the available commands to control your servers.
+2. **Install dependencies:**
+   ```sh
+   go mod tidy
+   ```
 
-## ⚙️ Example config.yml
+3. **Configure the bot:**
+   - Copy the example config file and edit it:
+     ```sh
+     cp config.yml.example config.yml
+     ```
+   - Fill in your Discord bot token, Pterodactyl API token, server ID, and panel URL in `config.yml`.
+
+4. **Build the bot:**
+   ```sh
+   go build -o pterodactylControlBot.exe main.go
+   ```
+
+5. **Run the bot:**
+   ```sh
+   ./pterodactylControlBot.exe
+   ```
+
+## Usage
+Invite your bot to your Discord server. Use the following commands in any channel the bot can read:
+
+- `<prefix>start` — Start the server
+- `<prefix>stop` — Stop the server
+- `<prefix>restart` — Restart the server
+- `<prefix>kill` — Kill the server
+- `<prefix>status` — Get the server status
+- `<prefix>help` — Show help message
+
+Replace `<prefix>` with the command prefix you set in `config.yml` (default is `!`).
+
+## Example `config.yml`
 ```yaml
-# This is a sample configuration file for a Discord bot.
-# Make sure to replace the placeholders with your actual values.
-
-# The token for your Discord bot. You can get this from the Discord Developer Portal.
-discord_token: ""
-
-# Command prefix for the bot. This is what users will type before commands.
-command_prefix: ""
-# The API token for your Pterodactyl panel. You can generate this in the Pterodactyl admin panel.
-api_token: ""
-# The URL of your Pterodactyl panel. Make sure to include the protocol (http or https) and trialing slash /.
-pterodactyl_url: "https://control.heavynode.com/api/client/"
-# The default server ID for the bot to use. This should be the ID of the server you want to manage.
-server_id: ""
-
+discord_token: "YOUR_DISCORD_BOT_TOKEN"
+command_prefix: "!"
+api_token: "YOUR_PTERODACTYL_API_TOKEN"
+pterodactyl_url: "https://panel.example.com/api/client/"
+server_id: "YOUR_SERVER_ID"
 ```
 
-## 🤝 Contributing
-Pull requests and issues are welcome!
+## Notes
+- Make sure your Pterodactyl API key has the correct permissions for server power actions.
+- The bot must be running for commands to work.
+- For production use, consider running the bot as a service or in a screen/tmux session.
 
-## 📄 License
-MIT
+## License
+MIT License
