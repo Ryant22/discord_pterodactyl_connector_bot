@@ -6,11 +6,10 @@ name: Go
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "main" ]
-  # Trigger release only on tag push
-  release:
-    types: [created]
 
 jobs:
 
@@ -31,7 +30,7 @@ jobs:
       run: go test -v ./...
 
   release:
-    if: github.event_name == 'release'
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
     steps:
