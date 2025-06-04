@@ -26,3 +26,29 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+      - name: Build Linux binary
+        run: GOOS=linux GOARCH=amd64 go build -o discord_pterodactyl_connector-linux-amd64
+      - name: Build Windows binary
+        run: GOOS=windows GOARCH=amd64 go build -o discord_pterodactyl_connector-windows-amd64.exe
+      - name: Build macOS binary
+        run: GOOS=darwin GOARCH=amd64 go build -o discord_pterodactyl_connector-darwin-amd64
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            discord_pterodactyl_connector-linux-amd64
+            discord_pterodactyl_connector-windows-amd64.exe
+            discord_pterodactyl_connector-darwin-amd64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
