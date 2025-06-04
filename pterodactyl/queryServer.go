@@ -37,5 +37,5 @@ func GetStatus(config *config.Config) string {
 		return "Error fetching server status"
 	}
 	status := result["attributes"].(map[string]interface{})["current_state"].(string)
-	return fmt.Sprintf("Server status: %s", status)
+	return status
 }
