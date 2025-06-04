@@ -5,6 +5,7 @@ import (
 	"discord_pterodactyl_connector/pterodactyl"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -16,6 +17,23 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, config *con
 
 	content := m.Content
 	prefix := config.CommandPrefix
+
+	perms, err := s.UserChannelPermissions(m.Author.ID, m.ChannelID)
+	if err != nil {
+		// handle err...
+	}
+
+	if perms&discordgo.PermissionAdministrator == 0 {
+		// user is not an administrator.
+		s.ChannelMessageSend(m.ChannelID, "You do not have permission to use this command. Only administrators can use this bot.")
+		timeStamp := time.Now().Format(time.RFC3339)
+		log.Printf("[%s] User %s (%s) attempted to use command: %s, but lacks permissions.", timeStamp, m.Author.Username, m.Author.ID, content)
+		return
+	} else {
+		// user is an administrator.
+		timeStamp := time.Now().Format(time.RFC3339)
+		log.Printf("[%s] User %s (%s) used command: %s", timeStamp, m.Author.Username, m.Author.ID, content)
+	}
 
 	switch {
 	case startsWith(content, prefix+"start"):
