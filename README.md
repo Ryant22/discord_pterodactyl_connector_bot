@@ -44,18 +44,21 @@ Invite the bot to your Discord server and use the available commands to control 
 
 ## ⚙️ Example config.yml
 ```yaml
-# config.yml
-# Fill in your details
+# This is a sample configuration file for a Discord bot.
+# Make sure to replace the placeholders with your actual values.
 
-discord_token: "YOUR_DISCORD_BOT_TOKEN"
-pterodactyl:
-  api_key: "YOUR_PTERODACTYL_API_KEY"
-  panel_url: "https://panel.example.com"
-  servers:
-    - id: "server-uuid-1"
-      name: "Minecraft Server"
-    - id: "server-uuid-2"
-      name: "CS:GO Server"
+# The token for your Discord bot. You can get this from the Discord Developer Portal.
+discord_token: ""
+
+# Command prefix for the bot. This is what users will type before commands.
+command_prefix: ""
+# The API token for your Pterodactyl panel. You can generate this in the Pterodactyl admin panel.
+api_token: ""
+# The URL of your Pterodactyl panel. Make sure to include the protocol (http or https) and trialing slash /.
+pterodactyl_url: "https://control.heavynode.com/api/client/"
+# The default server ID for the bot to use. This should be the ID of the server you want to manage.
+server_id: ""
+
 ```
 
 ## 🤝 Contributing
