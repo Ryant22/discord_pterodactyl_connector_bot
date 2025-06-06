@@ -52,49 +52,56 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, config *con
 }
 
 func handleStart(s *discordgo.Session, m *discordgo.MessageCreate, config *config.Config) {
-	status := pterodactyl.GetStatus(config)
+	status, err := pterodactyl.GetStatus(config)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Error fetching server status: "+err.Error())
+		return
+	}
 	log.Printf("Server status: %s", status)
-	if status == "running" {
+
+	switch status {
+	case "running":
 		s.ChannelMessageSend(m.ChannelID, "Server is already running.")
 		return
-	}
-	if status == "starting" {
+	case "starting":
 		s.ChannelMessageSend(m.ChannelID, "Server is already starting.")
 		return
-	}
-	if status == "stopping" {
+	case "stopping":
 		s.ChannelMessageSend(m.ChannelID, "Server is currently stopping. Please wait until it is stopped before starting it again.")
 		return
-	}
-	if status == "offline" {
+	case "offline":
 		s.ChannelMessageSend(m.ChannelID, "Server is offline. Starting it now...")
-	} else if status == "unknown" {
+	case "unknown":
 		s.ChannelMessageSend(m.ChannelID, "Server status is unknown. Attempting to start it...")
 	}
+
 	pterodactyl.SendPowerSignal("start", config)
 	s.ChannelMessageSend(m.ChannelID, "Server start command sent. Please wait for the server to start.")
 }
 
 func handleStop(s *discordgo.Session, m *discordgo.MessageCreate, config *config.Config) {
-	status := pterodactyl.GetStatus(config)
-	if status == "offline" {
+	status, err := pterodactyl.GetStatus(config)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Error fetching server status: "+err.Error())
+		return
+	}
+
+	switch status {
+	case "offline":
 		s.ChannelMessageSend(m.ChannelID, "Server is already offline.")
 		return
-	}
-	if status == "stopping" {
+	case "stopping":
 		s.ChannelMessageSend(m.ChannelID, "Server is already stopping.")
 		return
-	}
-	if status == "starting" {
+	case "starting":
 		s.ChannelMessageSend(m.ChannelID, "Server is currently starting. Please wait until it is started before stopping it.")
 		return
-	}
-	if status == "running" {
+	case "running":
 		s.ChannelMessageSend(m.ChannelID, "Server is running. Stopping it now...")
 		pterodactyl.SendPowerSignal("stop", config)
 		s.ChannelMessageSend(m.ChannelID, "Server stop command sent. Please wait for the server to stop.")
 		return
-	} else if status == "unknown" {
+	case "unknown":
 		s.ChannelMessageSend(m.ChannelID, "Server status is unknown. Attempting to stop it...")
 		pterodactyl.SendPowerSignal("stop", config)
 		return
@@ -102,13 +109,21 @@ func handleStop(s *discordgo.Session, m *discordgo.MessageCreate, config *config
 }
 
 func handleStatus(s *discordgo.Session, m *discordgo.MessageCreate, config *config.Config) {
-	status := pterodactyl.GetStatus(config)
+	status, err := pterodactyl.GetStatus(config)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Error fetching server status: "+err.Error())
+		return
+	}
 	message := fmt.Sprintf("Server status: %s", status)
 	s.ChannelMessageSend(m.ChannelID, message)
 }
 
 func handleRestart(s *discordgo.Session, m *discordgo.MessageCreate, config *config.Config) {
-	status := pterodactyl.GetStatus(config)
+	status, err := pterodactyl.GetStatus(config)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Error fetching server status: "+err.Error())
+		return
+	}
 	if status == "running" {
 		pterodactyl.SendPowerSignal("restart", config)
 		s.ChannelMessageSend(m.ChannelID, "Server restart command sent. Please wait for the server to restart.")

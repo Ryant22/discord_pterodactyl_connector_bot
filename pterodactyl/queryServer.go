@@ -5,37 +5,35 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
-func GetStatus(config *config.Config) string {
+func GetStatus(config *config.Config) (string, error) {
 	url := fmt.Sprintf("%sservers/%s/resources", config.PterodactylURL, config.ServerID)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Printf("Error creating request: %v", err)
-		return "Error fetching server status"
+		return "", fmt.Errorf("error creating request: %w", err)
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Authorization", "Bearer "+config.APIToken)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("Error sending request: %v", err)
-		return "Error fetching server status"
+		return "", fmt.Errorf("error sending request: %w", err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		body, _ := ioutil.ReadAll(resp.Body)
-		log.Printf("Error response from server: %s", body)
-		return "Error fetching server status"
+		return "", fmt.Errorf("error response from server: %s", body)
 	}
 	var result map[string]interface{}
 	err = json.NewDecoder(resp.Body).Decode(&result)
 	if err != nil {
-		log.Printf("Error decoding JSON: %v", err)
-		return "Error fetching server status"
+		return "", fmt.Errorf("error decoding JSON: %w", err)
 	}
-	status := result["attributes"].(map[string]interface{})["current_state"].(string)
-	return status
+	status, ok := result["attributes"].(map[string]interface{})["current_state"].(string)
+	if !ok {
+		return "", fmt.Errorf("unexpected response format: missing current_state")
+	}
+	return status, nil
 }

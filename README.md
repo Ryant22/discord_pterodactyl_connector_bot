@@ -45,6 +45,8 @@ A simple Discord bot written in Go that allows you to control a Pterodactyl game
 ## Usage
 Invite your bot to your Discord server. Use the following commands in any channel the bot can read:
 
+> **Security Note:** Only Discord server administrators can use the bot commands. Non-administrators will be denied access for security reasons.
+
 - `<prefix>start` — Start the server
 - `<prefix>stop` — Stop the server
 - `<prefix>restart` — Restart the server
